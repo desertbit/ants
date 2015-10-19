@@ -3,7 +3,7 @@
 
 This protocol is an asynchronous binary data protocol for communication over e.g. serial ports. It takes care about synchronization, checksum validation and error handling. The end user is able to transmit data chunks without worrying about the communication layer. Other protocols can be easily build up based on the ANTS protocol.
 
-The protocol can be found [here](protocol.md)
+**The protocol can be found [here](protocol.md)**
 
 # Support
 Feel free to contribute to this project.
