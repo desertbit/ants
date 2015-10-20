@@ -14,6 +14,7 @@ This protocol is licensed under the [GNU General Public License Version 3](http:
 The protocol version follows the [Semantic Versioning Scheme](http://semver.org/).
 
 Given a version number **MAJOR.MINOR.PATCH**, increment the:
+
 1. **MAJOR** version when you make incompatible API changes,
 2. **MINOR** version when you add functionality in a backwards-compatible manner, and
 3. **PATCH** version when you make backwards-compatible bug fixes.
@@ -58,18 +59,18 @@ The acknowledge control message tells the other peer that the data message with 
 
 ##### Format
 
-ACK    | Message Sequence | CRC-16 Checksum | ETX
------- | ---------------- | --------------- | ------
-1 Byte | 1 Byte           | 2 Bytes         | 1 Byte
+ACK    | Message Sequence Number | CRC-16 Checksum | ETX
+------ | ----------------------- | --------------- | ------
+1 Byte | 1 Byte                  | 2 Bytes         | 1 Byte
 
 #### 3.2.2 Negative Acknowledge Control Message
 The negative acknowledge control message tells the other peer that the previously received data message with the specific message sequence number was not received successfully. The sender peer has to resend the data message again. If the message sequence number is unknown, due to a corrupted data message, then use the unknown message sequence number (UMSN). The sender peer knows anyway that the previously send message data was the corrupted one.
 
 ##### Format
 
-NAK    | Message Sequence | CRC-16 Checksum | ETX
------- | ---------------- | --------------- | ------
-1 Byte | 1 Byte           | 2 Bytes         | 1 Byte
+NAK    | Message Sequence  Number | CRC-16 Checksum | ETX
+------ | ------------------------ | --------------- | ------
+1 Byte | 1 Byte                   | 2 Bytes         | 1 Byte
 
 ## 4. CRC - Cyclic redundancy check
 A cyclic redundancy check (CRC) is an error-detecting code commonly used in digital networks and storage devices to detect accidental changes to raw data. Blocks of data entering these systems get a short check value attached, based on the remainder of a polynomial division of their contents. On retrieval the calculation is repeated, and corrective action can be taken against presumed data corruption if the check values do not match.
