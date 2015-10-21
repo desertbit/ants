@@ -68,9 +68,9 @@ The negative acknowledge control message tells the other peer that the previousl
 
 ##### Format
 
-NAK    | Message Sequence  Number | CRC-16 Checksum | ETX
------- | ------------------------ | --------------- | ------
-1 Byte | 1 Byte                   | 2 Bytes         | 1 Byte
+NAK    | Message Sequence Number | CRC-16 Checksum | ETX
+------ | ----------------------- | --------------- | ------
+1 Byte | 1 Byte                  | 2 Bytes         | 1 Byte
 
 ## 4. CRC - Cyclic redundancy check
 A cyclic redundancy check (CRC) is an error-detecting code commonly used in digital networks and storage devices to detect accidental changes to raw data. Blocks of data entering these systems get a short check value attached, based on the remainder of a polynomial division of their contents. On retrieval the calculation is repeated, and corrective action can be taken against presumed data corruption if the check values do not match.
@@ -295,6 +295,8 @@ The following additional rules apply:
 1. The Slave does only send data messages as a response to a successful received data message from the Master.
 2. The Master has to wait for a data message response from the Slave after a successful transmitted data message to the Slave.
 
+**Important:** Multiple data messages to transmit bigger binary data chunks can be send to the Slave if the append data flag is set. The reply data message must be first send after a complete data transmission (multiple data messages received).
+
 ### 9.1 Samples
 #### Successful data transmission
 
@@ -303,6 +305,19 @@ MASTER   ----->   DATA MESSAGE          ----->   SLAVE
 MASTER   <-----   ACK CONTROL MESSAGE   <-----   SLAVE
 MASTER   <-----   DATA MESSAGE          <-----   SLAVE
 MASTER   ----->   ACK CONTROL MESSAGE   ----->   SLAVE
+```
+
+#### Successful data transmission with multiple data messages
+
+```
+MASTER   ----->   DATA MESSAGE (Append Data: 0x01)   ----->   SLAVE
+MASTER   <-----   ACK CONTROL MESSAGE                <-----   SLAVE
+MASTER   ----->   DATA MESSAGE (Append Data: 0x00)   ----->   SLAVE
+MASTER   <-----   ACK CONTROL MESSAGE                <-----   SLAVE
+MASTER   <-----   DATA MESSAGE (Append Data: 0x01)   <-----   SLAVE
+MASTER   ----->   ACK CONTROL MESSAGE                ----->   SLAVE
+MASTER   <-----   DATA MESSAGE (Append Data: 0x00)   <-----   SLAVE
+MASTER   ----->   ACK CONTROL MESSAGE                ----->   SLAVE
 ```
 
 #### Corrupted data transmission with correction #1
